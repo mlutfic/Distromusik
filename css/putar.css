@@ -1,0 +1,297 @@
+/* ============================================================
+   PUTAR — Distribusi Musik  ·  Warm Analog Design System
+   ============================================================ */
+
+/* ---- Fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  /* Paper & ink */
+  --paper:      #f3e7cf;   /* warm cream background */
+  --paper-2:    #ece0c6;   /* slightly deeper panel */
+  --paper-card: #faf3e2;   /* lifted card surface */
+  --ink:        #241a12;   /* warm espresso near-black */
+  --ink-soft:   #4f4334;   /* secondary text */
+  --ink-faint:  #8a7c64;   /* tertiary / captions */
+  --line:       #d8c7a4;   /* hairlines on paper */
+  --line-strong:#bfa588;
+
+  /* Accent — driven by Tweaks (default burnt orange) */
+  --accent:        #d2562a;   /* burnt orange */
+  --accent-deep:   #a83c1c;
+  --accent-ink:    #fff4e6;   /* text on accent */
+
+  /* Supporting vintage hues */
+  --mustard:   #e0a72e;
+  --teal:      #2f7d6c;
+  --rust:      #b6402a;
+  --cream-hi:  #fff8ea;
+
+  /* Type */
+  --font-display: 'Anton', sans-serif;
+  --font-serif:   'Newsreader', Georgia, serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'Space Mono', ui-monospace, monospace;
+
+  /* Geometry */
+  --spin-dur: 8s;
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --maxw: 1240px;
+
+  --shadow-sm: 0 2px 0 rgba(36,26,18,0.14);
+  --shadow-card: 6px 8px 0 rgba(36,26,18,0.12);
+  --shadow-hard: 5px 6px 0 var(--ink);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.30), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 { margin: 0; line-height: 1.0; }
+
+p { margin: 0; }
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+/* ---- Layout helpers ---- */
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow::before {
+  content: "";
+  width: 22px; height: 2px;
+  background: var(--accent);
+}
+
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 16px;
+  border: 2.5px solid var(--ink);
+  border-radius: 100px;
+  padding: 14px 26px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform .12s ease, box-shadow .12s ease, background .15s;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: var(--shadow-hard);
+}
+.btn-primary:hover { transform: translate(-2px,-2px); box-shadow: 7px 8px 0 var(--ink); }
+.btn-primary:active { transform: translate(2px,3px); box-shadow: 2px 2px 0 var(--ink); }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+/* ---- Tape strip decoration ---- */
+.tape {
+  position: relative;
+  display: inline-block;
+  background: var(--mustard);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  transform: rotate(-2deg);
+  box-shadow: 2px 2px 0 rgba(36,26,18,0.18);
+}
+
+/* Grain card */
+.card {
+  background: var(--paper-card);
+  border: 2.5px solid var(--ink);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-card);
+}
+
+/* Section rhythm */
+section { position: relative; }
+.section-pad { padding: 110px 0; }
+
+/* ============================================================
+   VINYL RECORD
+   ============================================================ */
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.vinyl {
+  position: relative;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      #1a1410 0px, #1a1410 1px,
+      #2a211a 2px, #2a211a 3px);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,0.05),
+    8px 12px 0 rgba(36,26,18,0.18),
+    0 0 0 8px var(--ink);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.vinyl-grooves {
+  position: absolute; inset: 8%;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle at 50% 50%,
+    rgba(255,255,255,0.00) 0px, rgba(255,255,255,0.00) 3px,
+    rgba(255,255,255,0.04) 4px, rgba(255,255,255,0.00) 5px);
+}
+.vinyl-shine {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 210deg,
+    transparent 0deg, rgba(255,255,255,0.10) 18deg, transparent 40deg,
+    transparent 180deg, rgba(255,255,255,0.07) 200deg, transparent 224deg);
+  mix-blend-mode: screen;
+}
+.vinyl-label {
+  position: relative;
+  width: 38%; height: 38%;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 2px;
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,0.18), 0 0 0 6px #15100b;
+}
+.vinyl-label-top, .vinyl-label-sub {
+  font-family: var(--font-mono);
+  font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+  opacity: 0.85;
+}
+.vinyl-label-name {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 3.4vw, 34px);
+  letter-spacing: 0.04em;
+}
+.vinyl-hole {
+  position: absolute;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1.5px #15100b;
+}
+
+/* ============================================================
+   CASSETTE
+   ============================================================ */
+.cassette {
+  width: 100%;
+  aspect-ratio: 1.58 / 1;
+  background: linear-gradient(160deg, var(--paper-card), var(--paper-2));
+  border: 2.5px solid var(--ink);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+.cassette-top { display: flex; justify-content: space-between; align-items: center; }
+.cassette-brand { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; }
+.cassette-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--rust); }
+.cassette-label {
+  background: var(--cream-hi);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  padding: 8px 12px;
+  position: relative;
+}
+.cassette-title { font-family: var(--font-display); font-size: 22px; text-transform: uppercase; display:block; }
+.cassette-sub { font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); }
+.cassette-lines { position: absolute; right: 10px; top: 10px; display: grid; gap: 4px; width: 38%; }
+.cassette-lines i { height: 2px; background: var(--line-strong); border-radius: 2px; }
+.cassette-window {
+  flex: 1;
+  background: #1a1410;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 18px;
+  padding: 0 24px;
+}
+.reel {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 3px solid #6b5b44;
+  background: radial-gradient(circle, #3a2f22 38%, #221a12 40%);
+  display: grid; place-items: center;
+  animation: spin 4s linear infinite;
+}
+.reel-spokes {
+  width: 100%; height: 100%; border-radius: 50%;
+  background:
+    conic-gradient(from 0deg, transparent 0 30deg, #8a7456 30deg 36deg, transparent 36deg 90deg,
+    #8a7456 90deg 96deg, transparent 96deg 150deg, #8a7456 150deg 156deg, transparent 156deg 210deg,
+    #8a7456 210deg 216deg, transparent 216deg 270deg, #8a7456 270deg 276deg, transparent 276deg 330deg,
+    #8a7456 330deg 336deg, transparent 336deg);
+  -webkit-mask: radial-gradient(circle, transparent 28%, #000 30%);
+          mask: radial-gradient(circle, transparent 28%, #000 30%);
+}
+.tape-bridge { flex: 1; height: 16px; background: #2c2218; border-radius: 3px; }
+.cassette-holes { display: flex; justify-content: space-around; padding: 0 14%; }
+.cassette-holes span { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); opacity: 0.4; }
+
+/* ============================================================
+   EQUALIZER
+   ============================================================ */
+.eq { display: flex; align-items: flex-end; gap: 4px; }
+.eq span {
+  width: 5px; border-radius: 3px;
+  height: 100%;
+  transform-origin: bottom;
+  animation: eqbar 0.9s ease-in-out infinite alternate;
+}
+@keyframes eqbar { from { transform: scaleY(0.25); } to { transform: scaleY(1); } }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
