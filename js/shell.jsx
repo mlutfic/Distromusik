@@ -1,6 +1,6 @@
 /* shell.jsx — shared Nav, Footer, page header/CTA bands, accent + bootstrap */
 
-const HOME = "PUTAR — Distribusi Musik.html";
+const HOME = "index.html";
 const NAV_LINKS = [
   ["Fitur", "Fitur.html", "fitur"],
   ["Cara Kerja", "Cara Kerja.html", "cara"],
